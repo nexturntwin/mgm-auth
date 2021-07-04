@@ -16,4 +16,4 @@ server:
   
 megam:
   security:
-    salt: test425
+    salt: testkey

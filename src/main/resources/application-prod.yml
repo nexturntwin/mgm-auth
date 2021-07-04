@@ -9,12 +9,12 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
   security:
     user:
-      name: admin
-      password: test
+      name: mgmadmin
+      password: 79797
       
 server:
   port: 8005
   
 megam:
   security:
-    salt: qazplm425
+    salt: M@g^m0p$
