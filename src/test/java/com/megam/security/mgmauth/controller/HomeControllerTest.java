@@ -38,15 +38,14 @@ public class HomeControllerTest extends BaseSecurityIT {
 
 	@WithMockUser("testuser")
 	@Test
-	void testHomeWithedValidUser() throws Exception {
+	void testHomeWithValidUser() throws Exception {
 		mockMvc.perform(get("/home")).andExpect(status().isOk());
 	}
 
 	@WithMockUser("mockedUserQwer")
 	@Test
-	void testHomeWithedMockedUser() throws Exception {
-		mockMvc.perform(get("/home").with(httpBasic("testuser", "test")))
-				.andExpect(status().isOk());
+	void testHomeWithMockedUser() throws Exception {
+		mockMvc.perform(get("/home")).andExpect(status().isOk());
 	}
 	// Providing no user for test method fails as spring security is configured.
 	@Test
@@ -61,7 +60,7 @@ public class HomeControllerTest extends BaseSecurityIT {
 
 	@Test
 	void testPingWithValidUser() throws Exception {
-		mockMvc.perform(get("/ping").with(httpBasic("testuser", "test"))).andExpect(status().isOk());
+		mockMvc.perform(get("/ping").with(httpBasic("client", "password"))).andExpect(status().isOk());
 	}
 
 	@Test
@@ -69,4 +68,18 @@ public class HomeControllerTest extends BaseSecurityIT {
 		mockMvc.perform(get("/ping").with(httpBasic("invaliduser", "blabla"))).andExpect(status().is4xxClientError());
 	}
 
+	@Test
+	void testHomeWithAdminUser() throws Exception {
+		mockMvc.perform(get("/home").with(httpBasic("admin", "admin"))).andExpect(status().isOk());
+	}
+	
+	@Test
+	void testHomeWithedDevUser() throws Exception {
+		mockMvc.perform(get("/home").with(httpBasic("developer", "password"))).andExpect(status().isOk());
+	}
+	
+	@Test
+	void testHomeWithedGuestUser() throws Exception {
+		mockMvc.perform(get("/home").with(httpBasic("guest", "password"))).andExpect(status().isOk());
+	}
 }
