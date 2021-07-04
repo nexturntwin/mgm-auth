@@ -5,15 +5,21 @@
  */
 package com.megam.security.mgmauth.config;
 
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+
+
 /**
  * @author murugan
  *
  */
-//@Configuration
-//@EnableWebSecurity
-public class BasicSecurityConfig {
+@Configuration
+@EnableWebSecurity
+public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	/*
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 		http.headers().frameOptions().sameOrigin();
@@ -23,14 +29,4 @@ public class BasicSecurityConfig {
 		}).authorizeRequests().anyRequest().authenticated().and().formLogin().and().httpBasic();
 	}
 	
-	@Override
-	@Bean
-	protected UserDetailsService userDetailsService() {
-		UserDetails adminUser = User.builder().username("murugan").password("qwert").
-				roles("ADMIN").build();
-		UserDetails customerUser = User.builder().username("test").password("asdfg")
-				.roles("READONLY").build();
-		return new InMemoryUserDetailsManager(adminUser, customerUser);
-	}
-	*/
 }
