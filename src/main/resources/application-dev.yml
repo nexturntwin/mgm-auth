@@ -3,17 +3,18 @@ spring:
   datasource:
     url: jdbc:h2:mem:testdb
     driverClassName: org.h2.Driver
-    username: testuser
+    username: murugan
+    password: murugan
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
   security:
     user:
-      name: testuser
+      name: admin
       password: test
-
+      
 server:
   port: 8005
   
 megam:
   security:
-    salt: test425
+    salt: qazplm425
