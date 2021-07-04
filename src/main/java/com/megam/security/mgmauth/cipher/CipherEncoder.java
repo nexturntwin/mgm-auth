@@ -21,10 +21,11 @@ import org.springframework.util.DigestUtils;
  * MegamAuth will be using bCrypt as the default encoder.
  * Note: Deprecated PasswordEncoders provided for legacy and testing purposes only.
  */
+@SuppressWarnings("deprecation")
 @Component("cipherEncoder")
 public class CipherEncoder {
 
-	@Value("${megham.security.salt}")
+	@Value("${megam.security.salt}")
 	private String salt;
 
 	// NoOp - Not recommended, doesn't do any manipulation on the given text.
@@ -83,5 +84,26 @@ public class CipherEncoder {
 	public Boolean bCryptPasswordValid(String rawPassword, String encodedPassword, BCryptVersion bcVersion, int strength) {
 		PasswordEncoder bcryptHashing = new BCryptPasswordEncoder(bcVersion, strength);
 		return bcryptHashing.matches(rawPassword, encodedPassword);
+	}
+	
+	//No need of using salt in bCrypt, it includes a salt generation logic already.
+	public String bCryptHashingWithSalt(String rawPassword) {
+		PasswordEncoder bcryptHashing = new BCryptPasswordEncoder(BCryptVersion.$2B, 4);
+		return bcryptHashing.encode(rawPassword + salt);
+	}
+	
+	public Boolean bCryptPasswordValidWithSalt(String rawPassword, String encodedPassword) {
+		PasswordEncoder bcryptHashing = new BCryptPasswordEncoder(BCryptVersion.$2B, 4);
+		return bcryptHashing.matches(rawPassword + salt, encodedPassword);
+	}
+	
+	public String bCryptHashingWithSalt(String rawPassword, BCryptVersion bcVersion, int strength) {
+		PasswordEncoder bcryptHashing = new BCryptPasswordEncoder(bcVersion, strength);
+		return bcryptHashing.encode(rawPassword + salt);
+	}
+
+	public Boolean bCryptPasswordValidWithSalt(String rawPassword, String encodedPassword, BCryptVersion bcVersion, int strength) {
+		PasswordEncoder bcryptHashing = new BCryptPasswordEncoder(bcVersion, strength);
+		return bcryptHashing.matches(rawPassword + salt, encodedPassword);
 	}
 }

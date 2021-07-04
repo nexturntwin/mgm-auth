@@ -98,7 +98,11 @@ public class CipherEncoderTest {
 	public void logBcryptEncoderHashValues() {
 		log.info(cipherEncoder.bCryptHashing("testpswd"));
 		log.info(cipherEncoder.bCryptHashing("testpswd"));
+		log.info(cipherEncoder.bCryptHashingWithSalt("testpswd"));
+		log.info(cipherEncoder.bCryptHashingWithSalt("testpswd"));
 		String encodedTxt = cipherEncoder.bCryptHashing("murugan");
 		assertTrue(cipherEncoder.bCryptPasswordValid("murugan", encodedTxt));
+		String encodedTxtWithSalt = cipherEncoder.bCryptHashingWithSalt("murugan");
+		assertTrue(cipherEncoder.bCryptPasswordValidWithSalt("murugan", encodedTxtWithSalt));
 	}
 }

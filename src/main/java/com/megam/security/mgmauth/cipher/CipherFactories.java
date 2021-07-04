@@ -22,13 +22,13 @@ import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
  */
 public class CipherFactories {
 
-	public static PasswordEncoder createDelegatingPasswordEncoder(String mtsSaltKey) {
+	public static PasswordEncoder createDelegatingPasswordEncoder(String saltKey) {
 		Map<String, PasswordEncoder> encoders = new HashMap<>();
-		encoders.put("bcrypt", new BCryptPasswordEncoder(BCryptVersion.$2B, 3));
+		encoders.put("bcrypt", new BCryptPasswordEncoder(BCryptVersion.$2B, 4));
 		encoders.put("bcrypt2B5", new BCryptPasswordEncoder(BCryptVersion.$2B, 5));
 		encoders.put("bcrypt2Y7", new BCryptPasswordEncoder(BCryptVersion.$2Y, 7));
 		encoders.put("bcrypt2A9", new BCryptPasswordEncoder(BCryptVersion.$2A, 9));
-		encoders.put("pbkdf2", new Pbkdf2PasswordEncoder());
+		encoders.put("pbkdf2", new Pbkdf2PasswordEncoder(saltKey));
 		encoders.put("scrypt", new SCryptPasswordEncoder());
 		encoders.put("argon2", new Argon2PasswordEncoder());
 		return new DelegatingPasswordEncoder("bcrypt", encoders);
