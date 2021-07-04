@@ -7,7 +7,11 @@ spring:
     password: 79797
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
-
+  security:
+    user:
+      name: admin
+      password: test
+      
 server:
   port: 8005
   
