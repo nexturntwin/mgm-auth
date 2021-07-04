@@ -23,7 +23,7 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 		http.headers().frameOptions().sameOrigin();
-		
+		http.csrf().ignoringAntMatchers("/h2-console/**");
 		http.authorizeRequests(authorize -> {
 			authorize.antMatchers("/", "/ping" , "/h2-console/**").permitAll();
 		}).authorizeRequests().anyRequest().authenticated().and().formLogin().and().httpBasic();
