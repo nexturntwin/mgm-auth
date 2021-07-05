@@ -15,5 +15,7 @@ server:
   port: 8005
   
 megam:
+  name: MEGAM
+  email: teammegham@gmail.com
   security:
     salt: testkey
