@@ -47,12 +47,13 @@ public class HomeControllerTest extends BaseSecurityIT {
 	void testHomeWithMockedUser() throws Exception {
 		mockMvc.perform(get("/home")).andExpect(status().isOk());
 	}
+
 	// Providing no user for test method fails as spring security is configured.
 	@Test
 	void testHomeNoUser() throws Exception {
 		mockMvc.perform(get("/home")).andExpect(status().is4xxClientError());
 	}
-	
+
 	@Test
 	void testPingNoUser() throws Exception {
 		mockMvc.perform(get("/ping")).andExpect(status().isOk());
@@ -72,29 +73,35 @@ public class HomeControllerTest extends BaseSecurityIT {
 	void testHomeWithAdminUser() throws Exception {
 		mockMvc.perform(get("/home").with(httpBasic("admin2", "megam1"))).andExpect(status().isOk());
 	}
-	
+
 	@Test
 	void testHomeWithDevUser() throws Exception {
 		mockMvc.perform(get("/home").with(httpBasic("developer1", "megam2"))).andExpect(status().isOk());
 	}
-	
+
 	@Test
 	void testHomeWithClientUser() throws Exception {
 		mockMvc.perform(get("/home").with(httpBasic("client1", "megam3"))).andExpect(status().isOk());
 	}
-	
+
 	@Test
 	void testHomeWithGuestUser() throws Exception {
 		mockMvc.perform(get("/home").with(httpBasic("guest1", "megam4"))).andExpect(status().isOk());
 	}
-	
+
 	@Test
 	void testAddUserWithAdminUser() throws Exception {
-		mockMvc.perform(get("/user/add").with(httpBasic("admin1", "megam1"))).andExpect(status().isOk());
+		mockMvc.perform(get("/user/manage").with(httpBasic("admin1", "megam1"))).andExpect(status().isOk());
 	}
-	
+
 	@Test
 	void testAddUserWithGuestUser() throws Exception {
-		mockMvc.perform(get("/user/add").with(httpBasic("guest1", "megam4"))).andExpect(status().is4xxClientError());
+		mockMvc.perform(get("/user/manage").with(httpBasic("guest1", "megam4"))).andExpect(status().is4xxClientError());
+	}
+
+	@Test
+	void testHomeWithHeaderFilterGuestUser() throws Exception {
+		mockMvc.perform(get("/user/manage").header("Api-Key", "guest1").header("Api-Secret", "megam4"))
+				.andExpect(status().isOk());
 	}
 }

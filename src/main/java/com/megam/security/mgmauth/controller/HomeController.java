@@ -36,7 +36,7 @@ public class HomeController {
 		return ResponseEntity.ok("DASHBOARD PAGE ACCESSIBLE.");
 	}
 	
-	@GetMapping({ "user/add" })
+	@GetMapping({ "user/manage" })
 	public ResponseEntity<String>  users() {
 		return ResponseEntity.ok("USER MANAGEMENT PAGE ACCESSIBLE.");
 	}

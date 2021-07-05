@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,8 +22,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.megam.security.mgmauth.cipher.CipherFactories;
+import com.megam.security.mgmauth.security.filters.RestHeaderAuthFilter;
 
 /**
  * @author murugan
@@ -41,18 +45,25 @@ public class InMemorySecurityConfig extends WebSecurityConfigurerAdapter {
 		return CipherFactories.createDelegatingPasswordEncoder(salt);
 	}
 
+	public RestHeaderAuthFilter restHeaderAuthFilter(AuthenticationManager authenticationManager) {
+		RestHeaderAuthFilter filter = new RestHeaderAuthFilter(new AntPathRequestMatcher("/mts/api/v1/**"));
+		filter.setAuthenticationManager(authenticationManager);
+		return filter;
+	}
+
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 		http.headers().frameOptions().sameOrigin();
 		http.authorizeRequests().antMatchers("/home").authenticated();
 		http.authorizeRequests().antMatchers("/user/**").hasRole("ADMIN");
+		http.addFilterAfter(restHeaderAuthFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
 		http.formLogin();
 		http.httpBasic();
 	}
-	
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		for(UserDetails userDetails: buildUserDetails()) {
+		for (UserDetails userDetails : buildUserDetails()) {
 			auth.inMemoryAuthentication().withUser(userDetails);
 		}
 		auth.inMemoryAuthentication().passwordEncoder(this.pswdEncoder()).withUser("admin2")
@@ -67,21 +78,16 @@ public class InMemorySecurityConfig extends WebSecurityConfigurerAdapter {
 
 	protected List<UserDetails> buildUserDetails() {
 		List<UserDetails> userDetails = new ArrayList<UserDetails>();
-		UserDetails admin = User.builder().passwordEncoder(pswdEncoder()::encode).username("admin1")
-				.password("megam1").roles("ADMIN")
-				.build();
+		UserDetails admin = User.builder().passwordEncoder(pswdEncoder()::encode).username("admin1").password("megam1")
+				.roles("ADMIN").build();
 		UserDetails developer = User.builder().passwordEncoder(pswdEncoder()::encode).username("developer1")
-				.password("megam2")
-				.roles("DEVELOPER", "ANALYST").build();
+				.password("megam2").roles("DEVELOPER", "ANALYST").build();
 		UserDetails client = User.builder().passwordEncoder(pswdEncoder()::encode).username("client1")
-				.password("megam3").roles("CLIENT")
-				.build();
-		UserDetails guest = User.builder().passwordEncoder(pswdEncoder()::encode).username("guest1")
-				.password("megam4").roles("GUEST")
-				.build();
-		UserDetails test = User.builder().passwordEncoder(pswdEncoder()::encode).username("test")
-				.password("password").roles("TEST")
-				.build();
+				.password("megam3").roles("CLIENT").build();
+		UserDetails guest = User.builder().passwordEncoder(pswdEncoder()::encode).username("guest1").password("megam4")
+				.roles("GUEST").build();
+		UserDetails test = User.builder().passwordEncoder(pswdEncoder()::encode).username("test").password("password")
+				.roles("TEST").build();
 		Collections.addAll(userDetails, admin, developer, client, guest, test);
 		return userDetails;
 	}
