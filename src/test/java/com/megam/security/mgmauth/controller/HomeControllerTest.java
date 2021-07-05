@@ -100,8 +100,14 @@ public class HomeControllerTest extends BaseSecurityIT {
 	}
 
 	@Test
-	void testHomeWithHeaderFilterGuestUser() throws Exception {
+	void testManageUserWithHeaderFilterGuestUser() throws Exception {
 		mockMvc.perform(get("/user/manage").header("Api-Key", "guest1").header("Api-Secret", "megam4"))
+				.andExpect(status().isOk());
+	}
+	
+	@Test
+	void testManageUserWithUrlParamFilterDevUser() throws Exception {
+		mockMvc.perform(get("/user/manage").param("Api-Key", "developer2").param("Api-Secret", "megam2"))
 				.andExpect(status().isOk());
 	}
 }

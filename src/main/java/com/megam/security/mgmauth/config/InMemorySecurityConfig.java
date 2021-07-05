@@ -27,6 +27,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.megam.security.mgmauth.cipher.CipherFactories;
 import com.megam.security.mgmauth.security.filters.RestHeaderAuthFilter;
+import com.megam.security.mgmauth.security.filters.RestUrlAuthFilter;
 
 /**
  * @author murugan
@@ -51,12 +52,19 @@ public class InMemorySecurityConfig extends WebSecurityConfigurerAdapter {
 		return filter;
 	}
 
+	private RestUrlAuthFilter restUrlAuthFilter(AuthenticationManager authenticationManager) {
+		RestUrlAuthFilter filter = new RestUrlAuthFilter(new AntPathRequestMatcher("/mts/api/v1/**"));
+		filter.setAuthenticationManager(authenticationManager);
+		return filter;
+	}
+
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 		http.headers().frameOptions().sameOrigin();
 		http.authorizeRequests().antMatchers("/home").authenticated();
 		http.authorizeRequests().antMatchers("/user/**").hasRole("ADMIN");
-		http.addFilterAfter(restHeaderAuthFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
+		http.addFilterBefore(restHeaderAuthFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
+		http.addFilterBefore(restUrlAuthFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
 		http.formLogin();
 		http.httpBasic();
 	}
