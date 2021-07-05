@@ -19,3 +19,8 @@ megam:
   email: teammegham@gmail.com
   security:
     salt: testkey
+
+logging:
+  level:
+    '[org.springframework.security]': debug
+    '[com.megam.security.mgmauth]': debug

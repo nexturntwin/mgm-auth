@@ -21,4 +21,8 @@ megam:
   security:
     salt: private
   
+logging:
+  level:
+    '[org.springframework.security]': debug
+    '[com.megam.security.mgmauth]': debug
     
