@@ -60,7 +60,7 @@ public class HomeControllerTest extends BaseSecurityIT {
 
 	@Test
 	void testPingWithValidUser() throws Exception {
-		mockMvc.perform(get("/ping").with(httpBasic("client", "megam3"))).andExpect(status().isOk());
+		mockMvc.perform(get("/ping").with(httpBasic("test", "password"))).andExpect(status().isOk());
 	}
 
 	@Test
@@ -70,16 +70,21 @@ public class HomeControllerTest extends BaseSecurityIT {
 
 	@Test
 	void testHomeWithAdminUser() throws Exception {
-		mockMvc.perform(get("/home").with(httpBasic("admin", "megam1"))).andExpect(status().isOk());
+		mockMvc.perform(get("/home").with(httpBasic("admin1", "megam1"))).andExpect(status().isOk());
 	}
 	
 	@Test
-	void testHomeWithedDevUser() throws Exception {
-		mockMvc.perform(get("/home").with(httpBasic("developer", "megam2"))).andExpect(status().isOk());
+	void testHomeWithDevUser() throws Exception {
+		mockMvc.perform(get("/home").with(httpBasic("developer1", "megam2"))).andExpect(status().isOk());
 	}
 	
 	@Test
-	void testHomeWithedGuestUser() throws Exception {
-		mockMvc.perform(get("/home").with(httpBasic("guest", "megam4"))).andExpect(status().isOk());
+	void testHomeWithClientUser() throws Exception {
+		mockMvc.perform(get("/home").with(httpBasic("client1", "megam3"))).andExpect(status().isOk());
+	}
+	
+	@Test
+	void testHomeWithGuestUser() throws Exception {
+		mockMvc.perform(get("/home").with(httpBasic("guest1", "megam4"))).andExpect(status().isOk());
 	}
 }

@@ -60,6 +60,8 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 				.build();
 		UserDetails guest = User.builder().passwordEncoder(pswdEncoder()::encode).username("guest").password("megam4").roles("GUEST")
 				.build();
+		UserDetails test = User.builder().passwordEncoder(pswdEncoder()::encode).username("test").password("password").roles("TEST")
+				.build();
 		return new InMemoryUserDetailsManager(admin, developer, client, guest);
 	}
 }
