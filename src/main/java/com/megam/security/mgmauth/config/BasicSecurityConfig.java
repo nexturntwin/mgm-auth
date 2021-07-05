@@ -8,6 +8,8 @@ package com.megam.security.mgmauth.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -25,12 +27,13 @@ import com.megam.security.mgmauth.cipher.CipherFactories;
  */
 @Configuration
 @EnableWebSecurity
+@Order(Ordered.LOWEST_PRECEDENCE)
 public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Value("${megam.security.salt}")
 	private String salt;
 	
-	@Bean
+	@Bean("pswdEncoderBasic")
 	PasswordEncoder pswdEncoder() {
 		return CipherFactories.createDelegatingPasswordEncoder(salt);
 	}
@@ -49,13 +52,13 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	@Bean
 	protected UserDetailsService userDetailsService() {
-		UserDetails admin = User.builder().passwordEncoder(pswdEncoder()::encode).username("admin").password("admin").roles("ADMIN")
+		UserDetails admin = User.builder().passwordEncoder(pswdEncoder()::encode).username("admin").password("megam1").roles("ADMIN")
 				.build();
-		UserDetails developer = User.builder().passwordEncoder(pswdEncoder()::encode).username("developer").password("password")
+		UserDetails developer = User.builder().passwordEncoder(pswdEncoder()::encode).username("developer").password("megam2")
 				.roles("DEVELOPER", "ANALYST").build();
-		UserDetails client = User.builder().passwordEncoder(pswdEncoder()::encode).username("client").password("password").roles("CLIENT")
+		UserDetails client = User.builder().passwordEncoder(pswdEncoder()::encode).username("client").password("megam3").roles("CLIENT")
 				.build();
-		UserDetails guest = User.builder().passwordEncoder(pswdEncoder()::encode).username("guest").password("password").roles("GUEST")
+		UserDetails guest = User.builder().passwordEncoder(pswdEncoder()::encode).username("guest").password("megam4").roles("GUEST")
 				.build();
 		return new InMemoryUserDetailsManager(admin, developer, client, guest);
 	}

@@ -16,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder.BCryptVersion;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -96,7 +97,10 @@ public class CipherEncoderTest {
 
 	@Test
 	public void logBcryptEncoderHashValues() {
-		log.info(cipherEncoder.bCryptHashing("testpswd"));
+		log.info(cipherEncoder.bCryptHashing("megam1"));
+		log.info(cipherEncoder.bCryptHashing("megam2", BCryptVersion.$2B, 5));
+		log.info(cipherEncoder.bCryptHashing("megam3", BCryptVersion.$2B, 5));
+		log.info(cipherEncoder.bCryptHashing("megam4", BCryptVersion.$2Y, 7));
 		log.info(cipherEncoder.bCryptHashing("testpswd"));
 		log.info(cipherEncoder.bCryptHashingWithSalt("testpswd"));
 		log.info(cipherEncoder.bCryptHashingWithSalt("testpswd"));
