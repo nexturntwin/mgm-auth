@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Controller
 public class HomeController {
-
+	
 	@GetMapping({ "", "/" })
 	public ResponseEntity<String> index() {
 		return ResponseEntity.ok("INDEX PAGE!!!");
@@ -29,5 +29,15 @@ public class HomeController {
 	@GetMapping({ "ping" })
 	public ResponseEntity<String> ping() {
 		return ResponseEntity.ok("PONG! PONG!!!");
+	}
+	
+	@GetMapping({ "dashboard" })
+	public ResponseEntity<String>  dashboard() {
+		return ResponseEntity.ok("DASHBOARD PAGE ACCESSIBLE.");
+	}
+	
+	@GetMapping({ "user/add" })
+	public ResponseEntity<String>  users() {
+		return ResponseEntity.ok("USER MANAGEMENT PAGE ACCESSIBLE.");
 	}
 }

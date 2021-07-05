@@ -87,4 +87,14 @@ public class HomeControllerTest extends BaseSecurityIT {
 	void testHomeWithGuestUser() throws Exception {
 		mockMvc.perform(get("/home").with(httpBasic("guest1", "megam4"))).andExpect(status().isOk());
 	}
+	
+	@Test
+	void testAddUserWithAdminUser() throws Exception {
+		mockMvc.perform(get("/user/add").with(httpBasic("admin1", "megam1"))).andExpect(status().isOk());
+	}
+	
+	@Test
+	void testAddUserWithGuestUser() throws Exception {
+		mockMvc.perform(get("/user/add").with(httpBasic("guest1", "megam4"))).andExpect(status().is4xxClientError());
+	}
 }

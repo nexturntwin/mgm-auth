@@ -44,7 +44,10 @@ public class InMemorySecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 		http.headers().frameOptions().sameOrigin();
-		http.authorizeRequests().antMatchers("/home").authenticated().and().formLogin().and().httpBasic();
+		http.authorizeRequests().antMatchers("/home").authenticated();
+		http.authorizeRequests().antMatchers("/user/**").hasRole("ADMIN");
+		http.formLogin();
+		http.httpBasic();
 	}
 	
 	@Override
