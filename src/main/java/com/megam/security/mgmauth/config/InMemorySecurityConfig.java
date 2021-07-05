@@ -36,7 +36,7 @@ public class InMemorySecurityConfig extends WebSecurityConfigurerAdapter {
 	@Value("${megam.security.salt}")
 	private String salt;
 
-	@Bean
+	@Bean("inMemoryPswdEncoder")
 	PasswordEncoder pswdEncoder() {
 		return CipherFactories.createDelegatingPasswordEncoder(salt);
 	}
@@ -52,7 +52,7 @@ public class InMemorySecurityConfig extends WebSecurityConfigurerAdapter {
 		for(UserDetails userDetails: buildUserDetails()) {
 			auth.inMemoryAuthentication().withUser(userDetails);
 		}
-		auth.inMemoryAuthentication().withUser("admin2")
+		auth.inMemoryAuthentication().passwordEncoder(this.pswdEncoder()).withUser("admin2")
 				.password("{bcrypt}$2b$04$QVrPfhTyVkHDVxY36SaqIuNnGGAYujgCafwoIwuYzrIQsX4Fb3nVe").roles("ADMIN").and()
 				.withUser("developer2")
 				.password("{bcrypt2B5}$2b$05$bM/EW81Ol5FLtm8dmalYT.JM0j9La0f8afnzNJtTDmSjDIpfCyYsO").roles("DEVELOPER")

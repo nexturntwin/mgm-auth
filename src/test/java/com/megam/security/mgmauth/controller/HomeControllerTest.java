@@ -70,7 +70,7 @@ public class HomeControllerTest extends BaseSecurityIT {
 
 	@Test
 	void testHomeWithAdminUser() throws Exception {
-		mockMvc.perform(get("/home").with(httpBasic("admin1", "megam1"))).andExpect(status().isOk());
+		mockMvc.perform(get("/home").with(httpBasic("admin2", "megam1"))).andExpect(status().isOk());
 	}
 	
 	@Test

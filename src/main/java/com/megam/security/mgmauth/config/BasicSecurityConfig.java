@@ -33,7 +33,7 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Value("${megam.security.salt}")
 	private String salt;
 	
-	@Bean("pswdEncoderBasic")
+	@Bean("basicPswdEncoder")
 	PasswordEncoder pswdEncoder() {
 		return CipherFactories.createDelegatingPasswordEncoder(salt);
 	}
