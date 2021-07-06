@@ -1,0 +1,22 @@
+#These db properties are optional for H2 embedded database
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: admin
+    password: 79797
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  security:
+    user:
+      name: mgmadmin
+      password: 79797
+      
+server:
+  port: 8005
+  
+megam:
+  name: MEGAM
+  email: teammegham@gmail.com
+  security:
+    salt: M@g^m0p$
