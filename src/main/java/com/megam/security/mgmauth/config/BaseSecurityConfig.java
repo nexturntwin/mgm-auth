@@ -5,6 +5,7 @@
  */
 package com.megam.security.mgmauth.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,9 +23,12 @@ public class BaseSecurityConfig {
 	@Value("${megam.security.salt}")
 	private String salt;
 	
+	@Autowired
+	private CipherFactories cipherFactories;
+	
 	@Bean
 	PasswordEncoder pswdEncoder() {
-		return CipherFactories.createDelegatingPasswordEncoder(salt);
+		return cipherFactories.createDelegatingPasswordEncoder(salt);
 	}
 	
 }

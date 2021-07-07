@@ -19,6 +19,7 @@ megam:
   email: teammegham@gmail.com
   security:
     salt: testkey
+    encoder: bcrypt
 
 logging:
   level:

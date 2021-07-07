@@ -20,6 +20,7 @@ megam:
   email: teammegham@gmail.com
   security:
     salt: private
+    encoder: pbkdf2
   
 logging:
   level:
