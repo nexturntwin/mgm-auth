@@ -6,6 +6,7 @@
 package com.megam.security.mgmauth.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.megam.security.mgmauth.domain.Authority;
 
@@ -13,6 +14,7 @@ import com.megam.security.mgmauth.domain.Authority;
  * @author murugan
  *
  */
+@Repository
 public interface AuthorityRepository extends JpaRepository<Authority, Integer> {
 
 }

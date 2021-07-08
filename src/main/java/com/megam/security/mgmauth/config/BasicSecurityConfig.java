@@ -45,15 +45,15 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	@Bean
 	protected UserDetailsService userDetailsService() {
-		UserDetails admin = User.builder().passwordEncoder(pswdEncoder::encode).username("admin").password("megam1").roles("ADMIN")
+		UserDetails admin = User.builder().passwordEncoder(pswdEncoder::encode).username("admin1").password("megam1").roles("ADMIN")
 				.build();
-		UserDetails developer = User.builder().passwordEncoder(pswdEncoder::encode).username("developer").password("megam2")
+		UserDetails developer = User.builder().passwordEncoder(pswdEncoder::encode).username("developer1").password("megam2")
 				.roles("DEVELOPER", "ANALYST").build();
-		UserDetails client = User.builder().passwordEncoder(pswdEncoder::encode).username("client").password("megam3").roles("CLIENT")
+		UserDetails client = User.builder().passwordEncoder(pswdEncoder::encode).username("client1").password("megam3").roles("CLIENT")
 				.build();
-		UserDetails guest = User.builder().passwordEncoder(pswdEncoder::encode).username("guest").password("megam4").roles("GUEST")
+		UserDetails guest = User.builder().passwordEncoder(pswdEncoder::encode).username("guest1").password("megam4").roles("GUEST")
 				.build();
-		UserDetails test = User.builder().passwordEncoder(pswdEncoder::encode).username("test").password("password").roles("TEST")
+		UserDetails test = User.builder().passwordEncoder(pswdEncoder::encode).username("test1").password("password").roles("TEST")
 				.build();
 		return new InMemoryUserDetailsManager(admin, developer, client, guest, test);
 	}

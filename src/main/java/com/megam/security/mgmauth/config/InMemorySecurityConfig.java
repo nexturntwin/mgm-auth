@@ -35,20 +35,20 @@ import com.megam.security.mgmauth.security.filters.RestUrlAuthFilter;
 @Configuration
 @EnableWebSecurity
 @Import(BaseSecurityConfig.class)
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(2^30)
 public class InMemorySecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	PasswordEncoder pswdEncoder;
 	
-	public RestHeaderAuthFilter restHeaderAuthFilter(AuthenticationManager authenticationManager) {
-		RestHeaderAuthFilter filter = new RestHeaderAuthFilter(new AntPathRequestMatcher("/mts/api/v1/**"));
+	private RestHeaderAuthFilter restHeaderAuthFilter(AuthenticationManager authenticationManager) {
+		RestHeaderAuthFilter filter = new RestHeaderAuthFilter(new AntPathRequestMatcher("/user/**"));
 		filter.setAuthenticationManager(authenticationManager);
 		return filter;
 	}
 
 	private RestUrlAuthFilter restUrlAuthFilter(AuthenticationManager authenticationManager) {
-		RestUrlAuthFilter filter = new RestUrlAuthFilter(new AntPathRequestMatcher("/mts/api/v1/**"));
+		RestUrlAuthFilter filter = new RestUrlAuthFilter(new AntPathRequestMatcher("/user/**"));
 		filter.setAuthenticationManager(authenticationManager);
 		return filter;
 	}
@@ -82,15 +82,15 @@ public class InMemorySecurityConfig extends WebSecurityConfigurerAdapter {
 
 	protected List<UserDetails> buildUserDetails() {
 		List<UserDetails> userDetails = new ArrayList<UserDetails>();
-		UserDetails admin = User.builder().passwordEncoder(pswdEncoder::encode).username("admin1").password("megam1")
+		UserDetails admin = User.builder().passwordEncoder(pswdEncoder::encode).username("admin2").password("megam1")
 				.roles("ADMIN").build();
-		UserDetails developer = User.builder().passwordEncoder(pswdEncoder::encode).username("developer1")
+		UserDetails developer = User.builder().passwordEncoder(pswdEncoder::encode).username("developer2")
 				.password("megam2").roles("DEVELOPER", "ANALYST").build();
-		UserDetails client = User.builder().passwordEncoder(pswdEncoder::encode).username("client1")
+		UserDetails client = User.builder().passwordEncoder(pswdEncoder::encode).username("client2")
 				.password("megam3").roles("CLIENT").build();
-		UserDetails guest = User.builder().passwordEncoder(pswdEncoder::encode).username("guest1").password("megam4")
+		UserDetails guest = User.builder().passwordEncoder(pswdEncoder::encode).username("guest2").password("megam4")
 				.roles("GUEST").build();
-		UserDetails test = User.builder().passwordEncoder(pswdEncoder::encode).username("test").password("password")
+		UserDetails test = User.builder().passwordEncoder(pswdEncoder::encode).username("test2").password("password")
 				.roles("TEST").build();
 		Collections.addAll(userDetails, admin, developer, client, guest, test);
 		return userDetails;

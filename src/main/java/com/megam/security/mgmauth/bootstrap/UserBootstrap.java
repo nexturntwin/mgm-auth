@@ -58,15 +58,15 @@ public class UserBootstrap implements CommandLineRunner {
 		log.info(this.getClass().getSimpleName() + ": loadUsers()");
 		List<User> users = new ArrayList<User>();
 
-		User admin = User.builder().username("admin1").password(pswdEncoder.encode("megam1")).authority(adminRole)
+		User admin = User.builder().username("admin3").password(pswdEncoder.encode("megam1")).authority(adminRole)
 				.build();
-		User developer = User.builder().username("developer1").password(pswdEncoder.encode("megam2"))
+		User developer = User.builder().username("developer3").password(pswdEncoder.encode("megam2"))
 				.authorities(Set.of(developerRole, analystRole)).build();
-		User client = User.builder().username("client1").password(pswdEncoder.encode("megam3")).authority(customerRole)
+		User client = User.builder().username("client3").password(pswdEncoder.encode("megam3")).authority(customerRole)
 				.build();
-		User guest = User.builder().username("guest1").password(pswdEncoder.encode("megam4")).authority(guestRole)
+		User guest = User.builder().username("guest3").password(pswdEncoder.encode("megam4")).authority(guestRole)
 				.build();
-		User test = User.builder().username("test").password(pswdEncoder.encode("password")).authority(testRole)
+		User test = User.builder().username("test3").password(pswdEncoder.encode("password")).authority(testRole)
 				.build();
 		Collections.addAll(users, admin, developer, client, guest, test);
 		userRepository.saveAll(users);
