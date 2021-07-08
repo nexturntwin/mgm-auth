@@ -9,7 +9,12 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -21,6 +26,27 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 public class UserAccesTest extends BaseSecurityIT  {
 
+	public static Stream<Arguments> getUsersWithDashboardAcces() {
+		return Stream.of(Arguments.of("admin3", "megam1"), Arguments.of("developer3", "megam2"));
+	}
+	
+	public static Stream<Arguments> getUsersWithApplicationAcces() {
+		return Stream.of(Arguments.of("admin3", "megam1"), Arguments.of("developer3", "megam2"),
+				Arguments.of("developer3", "megam2"));
+	}
+	
+	@ParameterizedTest
+	@MethodSource("getUsersWithDashboardAcces")
+	void testDashboardValidUsers(String username, String pswd) throws Exception {
+		mockMvc.perform(get("/dashboard").with(httpBasic(username, pswd))).andExpect(status().isOk());
+	}
+	
+	@ParameterizedTest
+	@MethodSource("getUsersWithApplicationAcces")
+	void testApplicationValidUsers(String username, String pswd) throws Exception {
+		mockMvc.perform(get("/dashboard").with(httpBasic(username, pswd))).andExpect(status().isOk());
+	}
+	
 	@Test
 	void testDashboardAdminUser() throws Exception {
 		mockMvc.perform(get("/dashboard").with(httpBasic("admin3", "megam1"))).andExpect(status().isOk());
