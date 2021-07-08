@@ -32,19 +32,19 @@ public class UserAccesTest extends BaseSecurityIT  {
 	
 	public static Stream<Arguments> getUsersWithApplicationAcces() {
 		return Stream.of(Arguments.of("admin3", "megam1"), Arguments.of("developer3", "megam2"),
-				Arguments.of("developer3", "megam2"));
+				Arguments.of("test3", "password"));
 	}
 	
 	@ParameterizedTest
 	@MethodSource("getUsersWithDashboardAcces")
 	void testDashboardValidUsers(String username, String pswd) throws Exception {
-		mockMvc.perform(get("/dashboard").with(httpBasic(username, pswd))).andExpect(status().isOk());
+		mockMvc.perform(get("/dashboard").with(httpBasic(username, pswd))).andExpect(status().is2xxSuccessful());
 	}
 	
 	@ParameterizedTest
 	@MethodSource("getUsersWithApplicationAcces")
 	void testApplicationValidUsers(String username, String pswd) throws Exception {
-		mockMvc.perform(get("/dashboard").with(httpBasic(username, pswd))).andExpect(status().isOk());
+		mockMvc.perform(get("/application").with(httpBasic(username, pswd))).andExpect(status().isOk());
 	}
 	
 	@Test

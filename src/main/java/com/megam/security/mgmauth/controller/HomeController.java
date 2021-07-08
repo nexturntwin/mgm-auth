@@ -6,6 +6,7 @@
 package com.megam.security.mgmauth.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -31,11 +32,13 @@ public class HomeController {
 		return ResponseEntity.ok("PONG! PONG!!!");
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@GetMapping({ "dashboard" })
 	public ResponseEntity<String>  dashboard() {
 		return ResponseEntity.ok("DASHBOARD PAGE ACCESSIBLE.");
 	}
 
+	@Secured({"ROLE_ADMIN", "ROLE_DEVELOPER", "ROLE_TEST"})
 	@GetMapping({ "application" })
 	public ResponseEntity<String>  application() {
 		return ResponseEntity.ok("APPLICATION PAGE ACCESSIBLE.");
