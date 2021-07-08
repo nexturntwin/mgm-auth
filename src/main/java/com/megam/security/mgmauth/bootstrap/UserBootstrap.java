@@ -48,12 +48,12 @@ public class UserBootstrap implements CommandLineRunner {
 
 	private void loadAuthorizedUsers() {
 		log.info(this.getClass().getSimpleName() + ": loadAuthorities()");
-		Authority adminRole = authorityRepository.save(Authority.builder().role("ADMIN").build());
-		Authority developerRole = authorityRepository.save(Authority.builder().role("DEVELOPER").build());
-		Authority customerRole = authorityRepository.save(Authority.builder().role("CUSTOMER").build());
-		Authority guestRole = authorityRepository.save(Authority.builder().role("GUEST").build());
-		Authority analystRole = authorityRepository.save(Authority.builder().role("ANALYST").build());
-		Authority testRole = authorityRepository.save(Authority.builder().role("TEST").build());
+		Authority adminRole = authorityRepository.save(Authority.builder().role("ROLE_ADMIN").build());
+		Authority developerRole = authorityRepository.save(Authority.builder().role("ROLE_DEVELOPER").build());
+		Authority customerRole = authorityRepository.save(Authority.builder().role("ROLE_CUSTOMER").build());
+		Authority guestRole = authorityRepository.save(Authority.builder().role("ROLE_GUEST").build());
+		Authority analystRole = authorityRepository.save(Authority.builder().role("ROLE_ANALYST").build());
+		Authority testRole = authorityRepository.save(Authority.builder().role("ROLE_TEST").build());
 
 		log.info(this.getClass().getSimpleName() + ": loadUsers()");
 		List<UserEntity> users = new ArrayList<UserEntity>();

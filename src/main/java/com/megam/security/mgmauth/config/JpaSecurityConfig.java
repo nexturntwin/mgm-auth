@@ -46,7 +46,7 @@ public class JpaSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	private RestUrlAuthFilter restUrlAuthFilter(AuthenticationManager authenticationManager) {
-		RestUrlAuthFilter filter = new RestUrlAuthFilter(new AntPathRequestMatcher("dashboard"));
+		RestUrlAuthFilter filter = new RestUrlAuthFilter(new AntPathRequestMatcher("/dashboard"));
 		filter.setAuthenticationManager(authenticationManager);
 		return filter;
 	}
@@ -56,7 +56,13 @@ public class JpaSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.headers().frameOptions().sameOrigin();
 		http.csrf().disable();
 		http.formLogin();
-		http.authorizeRequests().antMatchers("dashboard").hasRole("ANALYST");
+		http.httpBasic();
+		http.authorizeRequests().antMatchers("/dashboard").hasAnyRole("ADMIN", "ANALYST");
+		http.authorizeRequests().antMatchers("/product", "/application").hasAnyRole("ADMIN", "DEVELOPER", "ANALYST");
+		http.authorizeRequests().antMatchers("/pipeline").hasAnyRole("DEVELOPER", "TEST");
+		http.authorizeRequests().antMatchers("/home").authenticated();
+		http.authorizeRequests().antMatchers("/user/**").hasRole("ADMIN");
+		http.authorizeRequests().antMatchers("/report").hasAnyRole("ANALYST", "CUSTOMER");
 		http.addFilterBefore(restHeaderAuthFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
 		http.addFilterBefore(restUrlAuthFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
 	}

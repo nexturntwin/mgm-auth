@@ -35,6 +35,26 @@ public class HomeController {
 	public ResponseEntity<String>  dashboard() {
 		return ResponseEntity.ok("DASHBOARD PAGE ACCESSIBLE.");
 	}
+
+	@GetMapping({ "application" })
+	public ResponseEntity<String>  application() {
+		return ResponseEntity.ok("APPLICATION PAGE ACCESSIBLE.");
+	}
+	
+	@GetMapping({ "product" })
+	public ResponseEntity<String>  product() {
+		return ResponseEntity.ok("PRODUCT PAGE ACCESSIBLE.");
+	}
+	
+	@GetMapping({ "pipeline" })
+	public ResponseEntity<String>  pipeline() {
+		return ResponseEntity.ok("PIPELINE CONFIGURATION ACCESSIBLE.");
+	}
+	
+	@GetMapping({ "report" })
+	public ResponseEntity<String>  report() {
+		return ResponseEntity.ok("REPORTS PAGE ACCESSIBLE.");
+	}
 	
 	@GetMapping({ "user/manage" })
 	public ResponseEntity<String>  users() {

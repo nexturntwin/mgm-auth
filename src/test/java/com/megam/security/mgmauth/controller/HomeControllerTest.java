@@ -61,7 +61,7 @@ public class HomeControllerTest extends BaseSecurityIT {
 
 	@Test
 	void testPingWithValidUser() throws Exception {
-		mockMvc.perform(get("/ping").with(httpBasic("test2", "password"))).andExpect(status().isOk());
+		mockMvc.perform(get("/ping").with(httpBasic("test3", "password"))).andExpect(status().isOk());
 	}
 
 	@Test
@@ -71,43 +71,43 @@ public class HomeControllerTest extends BaseSecurityIT {
 
 	@Test
 	void testHomeWithAdminUser() throws Exception {
-		mockMvc.perform(get("/home").with(httpBasic("admin2", "megam1"))).andExpect(status().isOk());
+		mockMvc.perform(get("/home").with(httpBasic("admin3", "megam1"))).andExpect(status().isOk());
 	}
 
 	@Test
 	void testHomeWithDevUser() throws Exception {
-		mockMvc.perform(get("/home").with(httpBasic("developer2", "megam2"))).andExpect(status().isOk());
+		mockMvc.perform(get("/home").with(httpBasic("developer3", "megam2"))).andExpect(status().isOk());
 	}
 
 	@Test
 	void testHomeWithClientUser() throws Exception {
-		mockMvc.perform(get("/home").with(httpBasic("client2", "megam3"))).andExpect(status().isOk());
+		mockMvc.perform(get("/home").with(httpBasic("guest3", "megam4"))).andExpect(status().isOk());
 	}
 
 	@Test
 	void testHomeWithGuestUser() throws Exception {
-		mockMvc.perform(get("/home").with(httpBasic("guest2", "megam4"))).andExpect(status().isOk());
+		mockMvc.perform(get("/home").with(httpBasic("guest3", "megam4"))).andExpect(status().isOk());
 	}
 
 	@Test
 	void testAddUserWithAdminUser() throws Exception {
-		mockMvc.perform(get("/user/manage").with(httpBasic("admin2", "megam1"))).andExpect(status().isOk());
+		mockMvc.perform(get("/user/manage").with(httpBasic("admin3", "megam1"))).andExpect(status().isOk());
 	}
 
 	@Test
 	void testAddUserWithGuestUser() throws Exception {
-		mockMvc.perform(get("/user/manage").with(httpBasic("guest1", "megam4"))).andExpect(status().is4xxClientError());
+		mockMvc.perform(get("/user/manage").with(httpBasic("guest3", "megam4"))).andExpect(status().is4xxClientError());
 	}
 
 	@Test
 	void testManageUserWithHeaderFilterGuestUser() throws Exception {
-		mockMvc.perform(get("/user/manage").header("Api-Key", "guest2").header("Api-Secret", "megam4"))
+		mockMvc.perform(get("/user/manage").header("Api-Key", "guest3").header("Api-Secret", "megam4"))
 				.andExpect(status().isOk());
 	}
 	
 	@Test
 	void testManageUserWithUrlParamFilterDevUser() throws Exception {
-		mockMvc.perform(get("/user/manage").param("Api-Key", "developer2").param("Api-Secret", "megam2"))
+		mockMvc.perform(get("/user/manage").param("Api-Key", "developer3").param("Api-Secret", "megam2"))
 				.andExpect(status().isOk());
 	}
 }
