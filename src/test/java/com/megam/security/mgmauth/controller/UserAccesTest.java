@@ -35,6 +35,11 @@ public class UserAccesTest extends BaseSecurityIT  {
 				Arguments.of("test3", "password"));
 	}
 	
+	public static Stream<Arguments> getUsersWithProductAcces() {
+		return Stream.of(Arguments.of("admin3", "megam1"), Arguments.of("developer3", "megam2"),
+				Arguments.of("test3", "password"));
+	}
+	
 	@ParameterizedTest
 	@MethodSource("getUsersWithDashboardAcces")
 	void testDashboardValidUsers(String username, String pswd) throws Exception {
@@ -44,6 +49,12 @@ public class UserAccesTest extends BaseSecurityIT  {
 	@ParameterizedTest
 	@MethodSource("getUsersWithApplicationAcces")
 	void testApplicationValidUsers(String username, String pswd) throws Exception {
+		mockMvc.perform(get("/application").with(httpBasic(username, pswd))).andExpect(status().isOk());
+	}
+	
+	@ParameterizedTest
+	@MethodSource("getUsersWithProductAcces")
+	void testProductValidUsers(String username, String pswd) throws Exception {
 		mockMvc.perform(get("/application").with(httpBasic(username, pswd))).andExpect(status().isOk());
 	}
 	
