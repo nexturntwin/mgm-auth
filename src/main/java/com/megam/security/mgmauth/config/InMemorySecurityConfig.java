@@ -12,7 +12,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -35,11 +34,11 @@ import com.megam.security.mgmauth.security.filters.RestUrlAuthFilter;
 @Configuration
 @EnableWebSecurity
 @Import(BaseSecurityConfig.class)
-@Order(2^30)
+@Order(2^25)
 public class InMemorySecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	PasswordEncoder pswdEncoder;
+	private PasswordEncoder pswdEncoder;
 	
 	private RestHeaderAuthFilter restHeaderAuthFilter(AuthenticationManager authenticationManager) {
 		RestHeaderAuthFilter filter = new RestHeaderAuthFilter(new AntPathRequestMatcher("/user/**"));

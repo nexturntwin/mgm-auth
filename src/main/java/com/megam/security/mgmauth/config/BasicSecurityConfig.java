@@ -29,7 +29,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	PasswordEncoder pswdEncoder;
+	private PasswordEncoder pswdEncoder;
 	
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {

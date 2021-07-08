@@ -51,4 +51,9 @@ public class Authority {
 
 	@UpdateTimestamp
 	private Timestamp lastModifiedDate;
+	
+	@Override
+	public String toString() {
+		return this.role;
+	}
 }
