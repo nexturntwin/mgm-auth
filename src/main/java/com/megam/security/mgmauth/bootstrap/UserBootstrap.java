@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.megam.security.mgmauth.domain.Authority;
-import com.megam.security.mgmauth.domain.User;
+import com.megam.security.mgmauth.domain.UserEntity;
 import com.megam.security.mgmauth.repository.AuthorityRepository;
 import com.megam.security.mgmauth.repository.UserRepository;
 
@@ -56,17 +56,17 @@ public class UserBootstrap implements CommandLineRunner {
 		Authority testRole = authorityRepository.save(Authority.builder().role("TEST").build());
 
 		log.info(this.getClass().getSimpleName() + ": loadUsers()");
-		List<User> users = new ArrayList<User>();
+		List<UserEntity> users = new ArrayList<UserEntity>();
 
-		User admin = User.builder().username("admin3").password(pswdEncoder.encode("megam1")).authority(adminRole)
+		UserEntity admin = UserEntity.builder().username("admin3").password(pswdEncoder.encode("megam1")).authority(adminRole)
 				.build();
-		User developer = User.builder().username("developer3").password(pswdEncoder.encode("megam2"))
+		UserEntity developer = UserEntity.builder().username("developer3").password(pswdEncoder.encode("megam2"))
 				.authorities(Set.of(developerRole, analystRole)).build();
-		User client = User.builder().username("client3").password(pswdEncoder.encode("megam3")).authority(customerRole)
+		UserEntity client = UserEntity.builder().username("client3").password(pswdEncoder.encode("megam3")).authority(customerRole)
 				.build();
-		User guest = User.builder().username("guest3").password(pswdEncoder.encode("megam4")).authority(guestRole)
+		UserEntity guest = UserEntity.builder().username("guest3").password(pswdEncoder.encode("megam4")).authority(guestRole)
 				.build();
-		User test = User.builder().username("test3").password(pswdEncoder.encode("password")).authority(testRole)
+		UserEntity test = UserEntity.builder().username("test3").password(pswdEncoder.encode("password")).authority(testRole)
 				.build();
 		Collections.addAll(users, admin, developer, client, guest, test);
 		userRepository.saveAll(users);

@@ -39,7 +39,7 @@ import lombok.Singular;
 @AllArgsConstructor
 @Builder
 @Entity
-public class User {
+public class UserEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
