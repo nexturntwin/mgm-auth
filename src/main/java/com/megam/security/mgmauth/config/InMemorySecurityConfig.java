@@ -9,10 +9,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -25,7 +24,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.megam.security.mgmauth.cipher.CipherFactories;
 import com.megam.security.mgmauth.security.filters.RestHeaderAuthFilter;
 import com.megam.security.mgmauth.security.filters.RestUrlAuthFilter;
 
@@ -35,25 +33,21 @@ import com.megam.security.mgmauth.security.filters.RestUrlAuthFilter;
  */
 @Configuration
 @EnableWebSecurity
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Import(BaseSecurityConfig.class)
+@Order(2^25)
 public class InMemorySecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Value("${megam.security.salt}")
-	private String salt;
-
-	@Bean("inMemoryPswdEncoder")
-	PasswordEncoder pswdEncoder() {
-		return CipherFactories.createDelegatingPasswordEncoder(salt);
-	}
-
-	public RestHeaderAuthFilter restHeaderAuthFilter(AuthenticationManager authenticationManager) {
-		RestHeaderAuthFilter filter = new RestHeaderAuthFilter(new AntPathRequestMatcher("/mts/api/v1/**"));
+	@Autowired
+	private PasswordEncoder pswdEncoder;
+	
+	private RestHeaderAuthFilter restHeaderAuthFilter(AuthenticationManager authenticationManager) {
+		RestHeaderAuthFilter filter = new RestHeaderAuthFilter(new AntPathRequestMatcher("/user/**"));
 		filter.setAuthenticationManager(authenticationManager);
 		return filter;
 	}
 
 	private RestUrlAuthFilter restUrlAuthFilter(AuthenticationManager authenticationManager) {
-		RestUrlAuthFilter filter = new RestUrlAuthFilter(new AntPathRequestMatcher("/mts/api/v1/**"));
+		RestUrlAuthFilter filter = new RestUrlAuthFilter(new AntPathRequestMatcher("/user/**"));
 		filter.setAuthenticationManager(authenticationManager);
 		return filter;
 	}
@@ -61,6 +55,7 @@ public class InMemorySecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 		http.headers().frameOptions().sameOrigin();
+		http.csrf().disable();
 		http.authorizeRequests().antMatchers("/home").authenticated();
 		http.authorizeRequests().antMatchers("/user/**").hasRole("ADMIN");
 		http.addFilterBefore(restHeaderAuthFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
@@ -74,7 +69,7 @@ public class InMemorySecurityConfig extends WebSecurityConfigurerAdapter {
 		for (UserDetails userDetails : buildUserDetails()) {
 			auth.inMemoryAuthentication().withUser(userDetails);
 		}
-		auth.inMemoryAuthentication().passwordEncoder(this.pswdEncoder()).withUser("admin2")
+		auth.inMemoryAuthentication().passwordEncoder(this.pswdEncoder).withUser("admin2")
 				.password("{bcrypt}$2b$04$QVrPfhTyVkHDVxY36SaqIuNnGGAYujgCafwoIwuYzrIQsX4Fb3nVe").roles("ADMIN").and()
 				.withUser("developer2")
 				.password("{bcrypt2B5}$2b$05$bM/EW81Ol5FLtm8dmalYT.JM0j9La0f8afnzNJtTDmSjDIpfCyYsO").roles("DEVELOPER")
@@ -86,15 +81,15 @@ public class InMemorySecurityConfig extends WebSecurityConfigurerAdapter {
 
 	protected List<UserDetails> buildUserDetails() {
 		List<UserDetails> userDetails = new ArrayList<UserDetails>();
-		UserDetails admin = User.builder().passwordEncoder(pswdEncoder()::encode).username("admin1").password("megam1")
+		UserDetails admin = User.builder().passwordEncoder(pswdEncoder::encode).username("admin2").password("megam1")
 				.roles("ADMIN").build();
-		UserDetails developer = User.builder().passwordEncoder(pswdEncoder()::encode).username("developer1")
+		UserDetails developer = User.builder().passwordEncoder(pswdEncoder::encode).username("developer2")
 				.password("megam2").roles("DEVELOPER", "ANALYST").build();
-		UserDetails client = User.builder().passwordEncoder(pswdEncoder()::encode).username("client1")
+		UserDetails client = User.builder().passwordEncoder(pswdEncoder::encode).username("client2")
 				.password("megam3").roles("CLIENT").build();
-		UserDetails guest = User.builder().passwordEncoder(pswdEncoder()::encode).username("guest1").password("megam4")
+		UserDetails guest = User.builder().passwordEncoder(pswdEncoder::encode).username("guest2").password("megam4")
 				.roles("GUEST").build();
-		UserDetails test = User.builder().passwordEncoder(pswdEncoder()::encode).username("test").password("password")
+		UserDetails test = User.builder().passwordEncoder(pswdEncoder::encode).username("test2").password("password")
 				.roles("TEST").build();
 		Collections.addAll(userDetails, admin, developer, client, guest, test);
 		return userDetails;

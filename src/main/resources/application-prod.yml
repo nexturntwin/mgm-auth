@@ -20,3 +20,4 @@ megam:
   email: teammegham@gmail.com
   security:
     salt: M@g^m0p$
+    encoder: bcrypt2A9

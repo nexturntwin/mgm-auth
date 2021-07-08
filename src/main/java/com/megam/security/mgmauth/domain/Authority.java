@@ -43,7 +43,7 @@ public class Authority {
 	private String role;
 
 	@ManyToMany(mappedBy = "authorities")
-	private Set<User> users;
+	private Set<UserEntity> users;
 
 	@CreationTimestamp
 	@Column(updatable = false)
@@ -51,4 +51,9 @@ public class Authority {
 
 	@UpdateTimestamp
 	private Timestamp lastModifiedDate;
+	
+	@Override
+	public String toString() {
+		return this.role;
+	}
 }

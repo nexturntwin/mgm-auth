@@ -4,7 +4,7 @@ spring:
     url: jdbc:h2:mem:testdb
     driverClassName: org.h2.Driver
     username: murugan
-    password: murugan
+    password: 
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
   security:
@@ -20,6 +20,7 @@ megam:
   email: teammegham@gmail.com
   security:
     salt: private
+    encoder: pbkdf2
   
 logging:
   level:
