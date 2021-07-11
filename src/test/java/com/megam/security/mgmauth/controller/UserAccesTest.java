@@ -65,7 +65,7 @@ public class UserAccesTest extends BaseSecurityIT  {
 	
 	@Test
 	void testDashboardDevUser() throws Exception {
-		mockMvc.perform(get("/dashboard").with(httpBasic("developer3", "megam2"))).andExpect(status().isOk());
+		mockMvc.perform(get("/dashboard").with(httpBasic("admin3", "megam1"))).andExpect(status().isOk());
 	}
 	
 	@Test
@@ -85,7 +85,7 @@ public class UserAccesTest extends BaseSecurityIT  {
 	
 	@Test
 	void testPipelineDevUser() throws Exception {
-		mockMvc.perform(get("/product").with(httpBasic("developer3", "megam2"))).andExpect(status().isOk());
+		mockMvc.perform(get("/pipeline").with(httpBasic("developer3", "megam2"))).andExpect(status().isOk());
 	}
 	
 	@Test

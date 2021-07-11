@@ -33,7 +33,7 @@ public class HomeController {
 		return ResponseEntity.ok("PONG! PONG!!!");
 	}
 	
-	@Secured("ROLE_ADMIN")
+	@Secured({"ROLE_ADMIN", "ROLE_DEVELOPER"})
 	@GetMapping({ "dashboard" })
 	public ResponseEntity<String>  dashboard() {
 		return ResponseEntity.ok("DASHBOARD PAGE ACCESSIBLE.");
