@@ -5,12 +5,16 @@
  */
 package com.megam.security.mgmauth.security.authority;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 
 /**
  * @author murugan
  *
  */
+@Retention(RetentionPolicy.RUNTIME)
 @PreAuthorize("hasAuthority('users.manage')")
 public @interface UsersManageAuthority {
 
