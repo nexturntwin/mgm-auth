@@ -10,6 +10,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.megam.security.mgmauth.security.authority.ProductViewAuthority;
+import com.megam.security.mgmauth.security.authority.UsersManageAuthority;
+
 /**
  * @author murugan
  *
@@ -44,7 +47,7 @@ public class HomeController {
 		return ResponseEntity.ok("APPLICATION PAGE ACCESSIBLE.");
 	}
 	
-	@PreAuthorize("hasAuthority('product.view')")
+	@ProductViewAuthority
 	@GetMapping({ "product" })
 	public ResponseEntity<String>  product() {
 		return ResponseEntity.ok("PRODUCT PAGE ACCESSIBLE.");
@@ -61,8 +64,8 @@ public class HomeController {
 	public ResponseEntity<String>  report() {
 		return ResponseEntity.ok("REPORTS PAGE ACCESSIBLE.");
 	}
-	
-	@PreAuthorize("hasAuthority('users.manage')")
+
+	@UsersManageAuthority
 	@GetMapping({ "users/manage" })
 	public ResponseEntity<String>  users() {
 		return ResponseEntity.ok("USER MANAGEMENT PAGE ACCESSIBLE.");
