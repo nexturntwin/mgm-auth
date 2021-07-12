@@ -56,7 +56,8 @@ public class JpaSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 		http.headers().frameOptions().sameOrigin();
-		http.csrf().disable();
+		//http.csrf().disable();
+		http.csrf().ignoringAntMatchers("/h2-console/**");
 		http.formLogin();
 		http.httpBasic();
 		http.authorizeRequests().antMatchers("/home").authenticated();

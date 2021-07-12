@@ -49,11 +49,11 @@ public abstract class AbstractRestAuthFilter extends AbstractAuthenticationProce
 			userId = "";
 		if (null == password)
 			password = "";
-		log.debug("MEGAM: RestAuthFilter - Authenticating for userId: " + userId);
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userId, password);
 		if (ObjectUtils.isEmpty(userId)) {
 			return null;
 		} else {
+			log.debug("MEGAM: RestAuthFilter - Authenticating for userId: " + userId);
 			return this.getAuthenticationManager().authenticate(token);
 		}
 	}
@@ -65,10 +65,9 @@ public abstract class AbstractRestAuthFilter extends AbstractAuthenticationProce
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 
-		log.debug("Request to process authentication by MEGAM-AUTH");
-
 		try {
 			Authentication authResult = attemptAuthentication(request, response);
+			log.debug("Request to process authentication by MEGAM-AUTH");
 			if (null == authResult) {
 				chain.doFilter(request, response);
 			} else {

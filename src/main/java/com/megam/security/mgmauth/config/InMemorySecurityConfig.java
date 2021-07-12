@@ -57,7 +57,7 @@ public class InMemorySecurityConfig extends WebSecurityConfigurerAdapter {
 		http.headers().frameOptions().sameOrigin();
 		http.csrf().disable();
 		http.authorizeRequests().antMatchers("/home").authenticated();
-		http.authorizeRequests().antMatchers("/users/**").hasRole("DEVELOPER");
+		//http.authorizeRequests().antMatchers("/users/**").hasRole("DEVELOPER");
 		http.addFilterBefore(restHeaderAuthFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
 		http.addFilterBefore(restUrlAuthFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
 		http.formLogin();

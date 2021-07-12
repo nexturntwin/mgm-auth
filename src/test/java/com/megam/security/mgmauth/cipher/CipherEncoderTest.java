@@ -16,10 +16,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder.BCryptVersion;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import com.megam.security.mgmauth.repository.UserRepository;
+import com.megam.security.mgmauth.services.UserDetailsAuthService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,8 +34,9 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(CipherEncoder.class)
-@Import(CipherFactories.class)
+//@WebMvcTest(CipherEncoder.class)
+@SpringBootTest
+@ActiveProfiles("test")
 @TestPropertySource(properties = "megham.security.salt=testkey")
 public class CipherEncoderTest {
 
