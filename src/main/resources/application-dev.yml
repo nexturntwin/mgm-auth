@@ -4,13 +4,9 @@ spring:
     url: jdbc:h2:mem:testdb
     driverClassName: org.h2.Driver
     username: murugan
-    password: 
+    password: test
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
-  security:
-    user:
-      name: admin
-      password: test
       
 server:
   port: 8005
