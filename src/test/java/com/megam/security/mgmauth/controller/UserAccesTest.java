@@ -32,12 +32,12 @@ public class UserAccesTest extends BaseSecurityIT  {
 	
 	public static Stream<Arguments> getUsersWithApplicationAcces() {
 		return Stream.of(Arguments.of("admin3", "megam1"), Arguments.of("developer3", "megam2"),
-				Arguments.of("test3", "password"));
+				Arguments.of("guest3", "megam4"));
 	}
 	
 	public static Stream<Arguments> getUsersWithProductAcces() {
 		return Stream.of(Arguments.of("admin3", "megam1"), Arguments.of("developer3", "megam2"),
-				Arguments.of("test3", "password"));
+				Arguments.of("guest3", "megam4"));
 	}
 	
 	@ParameterizedTest
@@ -80,7 +80,12 @@ public class UserAccesTest extends BaseSecurityIT  {
 	
 	@Test
 	void testProductGuestUser() throws Exception {
-		mockMvc.perform(get("/product").with(httpBasic("guest3", "megam4"))).andExpect(status().isForbidden());
+		mockMvc.perform(get("/product").with(httpBasic("guest3", "megam4"))).andExpect(status().is2xxSuccessful());
+	}
+	
+	@Test
+	void testProductTestUser() throws Exception {
+		mockMvc.perform(get("/product").with(httpBasic("test3", "password"))).andExpect(status().isForbidden());
 	}
 	
 	@Test
@@ -90,6 +95,6 @@ public class UserAccesTest extends BaseSecurityIT  {
 	
 	@Test
 	void testPipelineGuestUser() throws Exception {
-		mockMvc.perform(get("/product").with(httpBasic("guest3", "megam4"))).andExpect(status().isForbidden());
+		mockMvc.perform(get("/product").with(httpBasic("guest3", "megam4"))).andExpect(status().is2xxSuccessful());
 	}
 }

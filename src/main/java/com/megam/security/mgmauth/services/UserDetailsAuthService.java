@@ -71,7 +71,7 @@ public class UserDetailsAuthService implements UserDetailsService {
 	private Collection<? extends GrantedAuthority> getGrantedAuthorities(Set<Authority> authorities) {
 		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 		if (!authorities.isEmpty()) {
-			grantedAuthorities.addAll(authorities.stream().map(Authority::getRole).map(SimpleGrantedAuthority::new)
+			grantedAuthorities.addAll(authorities.stream().map(Authority::getPermission).map(SimpleGrantedAuthority::new)
 					.collect(Collectors.toSet()));
 		}
 		return grantedAuthorities;

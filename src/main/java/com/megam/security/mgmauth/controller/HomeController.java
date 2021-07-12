@@ -6,7 +6,6 @@
 package com.megam.security.mgmauth.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,35 +32,38 @@ public class HomeController {
 		return ResponseEntity.ok("PONG! PONG!!!");
 	}
 	
-	@Secured({"ROLE_ADMIN", "ROLE_DEVELOPER"})
+	@PreAuthorize("hasAuthority('dashboard.view')")
 	@GetMapping({ "dashboard" })
 	public ResponseEntity<String>  dashboard() {
 		return ResponseEntity.ok("DASHBOARD PAGE ACCESSIBLE.");
 	}
 
-	@Secured({"ROLE_ADMIN", "ROLE_DEVELOPER", "ROLE_TEST"})
+	@PreAuthorize("hasAnyAuthority({'application.manage', 'application.view'})")
 	@GetMapping({ "application" })
 	public ResponseEntity<String>  application() {
 		return ResponseEntity.ok("APPLICATION PAGE ACCESSIBLE.");
 	}
 	
-	@PreAuthorize("hasAnyRole({'ADMIN', 'TEST'})")
+	@PreAuthorize("hasAuthority('product.view')")
 	@GetMapping({ "product" })
 	public ResponseEntity<String>  product() {
 		return ResponseEntity.ok("PRODUCT PAGE ACCESSIBLE.");
 	}
 	
+	@PreAuthorize("hasAnyAuthority({'pipeline.manage','pipeline.view'})")
 	@GetMapping({ "pipeline" })
 	public ResponseEntity<String>  pipeline() {
 		return ResponseEntity.ok("PIPELINE CONFIGURATION ACCESSIBLE.");
 	}
 	
+	@PreAuthorize("hasAuthority('reports.view')")
 	@GetMapping({ "report" })
 	public ResponseEntity<String>  report() {
 		return ResponseEntity.ok("REPORTS PAGE ACCESSIBLE.");
 	}
 	
-	@GetMapping({ "user/manage" })
+	@PreAuthorize("hasAuthority('users.manage')")
+	@GetMapping({ "users/manage" })
 	public ResponseEntity<String>  users() {
 		return ResponseEntity.ok("USER MANAGEMENT PAGE ACCESSIBLE.");
 	}

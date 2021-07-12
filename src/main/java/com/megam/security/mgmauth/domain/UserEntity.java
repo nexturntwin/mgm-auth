@@ -7,6 +7,7 @@ package com.megam.security.mgmauth.domain;
 
 import java.sql.Timestamp;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -46,16 +48,23 @@ public class UserEntity {
 	private Integer id;
 
 	private String username;
-	
+
 	private String password;
 
 	@Singular
 	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-	@JoinTable(name = "USER_AUTHORITY", joinColumns = {
+	@JoinTable(name = "USER_ROLE", joinColumns = {
 			@JoinColumn(name = "USER_ID", referencedColumnName = "ID") }, inverseJoinColumns = {
-					@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID") })
+					@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID") })
+	private Set<RoleEntity> roles;
+
+	@Transient
 	private Set<Authority> authorities;
-	
+
+	public Set<Authority> getAuthorities() {
+		return this.roles.stream().map(RoleEntity::getAuthorities).flatMap(Set::stream).collect(Collectors.toSet());
+	}
+
 	@Builder.Default
 	private boolean accountNonExpired = true;
 
@@ -74,7 +83,7 @@ public class UserEntity {
 
 	@UpdateTimestamp
 	private Timestamp lastModifiedDate;
-	
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -85,7 +94,9 @@ public class UserEntity {
 		sb.append("AccountNonExpired=").append(this.accountNonExpired).append(", ");
 		sb.append("credentialsNonExpired=").append(this.credentialsNonExpired).append(", ");
 		sb.append("AccountNonLocked=").append(this.accountNonLocked).append(", ");
-		sb.append("Granted Authorities=").append(this.authorities).append("]");
+		sb.append("Roles=").append(this.roles).append(", ");
+		sb.append("Granted Authorities=").append(this.getAuthorities()).append("]");
 		return sb.toString();
 	}
+
 }
