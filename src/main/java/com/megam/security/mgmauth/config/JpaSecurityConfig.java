@@ -32,7 +32,7 @@ import com.megam.security.mgmauth.services.UserDetailsAuthService;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @Import(BaseSecurityConfig.class)
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(2^25)
 public class JpaSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired

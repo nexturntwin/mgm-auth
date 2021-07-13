@@ -17,3 +17,10 @@ megam:
   security:
     salt: M@g^m0p$
     encoder: bcrypt2A9
+
+keycloak:
+  auth-server-url: http://localhost:8300/auth
+  realm: megamauth
+  resource: megam-auth
+  public-client: true
+  principal-attribute: preferred_username
