@@ -34,7 +34,7 @@ import com.megam.security.mgmauth.security.filters.RestUrlAuthFilter;
 @Configuration
 @EnableWebSecurity
 @Import(BaseSecurityConfig.class)
-@Order(2^25)
+@Order(2^20)
 public class InMemorySecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired

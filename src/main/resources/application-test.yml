@@ -22,3 +22,11 @@ logging:
   level:
     '[org.springframework.security]': debug
     '[com.megam.security.mgmauth]': debug
+    '[org.keycloak]': trace
+
+keycloak:
+  auth-server-url: http://localhost:8300/auth
+  realm: megamauth
+  resource: megam-auth
+  public-client: true
+  principal-attribute: preferred_username
