@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
@@ -27,6 +28,7 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 @Configuration
 @EnableWebSecurity
 @Order(Ordered.HIGHEST_PRECEDENCE)
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class KeyCloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
 	@Bean
@@ -43,14 +45,13 @@ public class KeyCloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) {
 		KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
-		keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
 		auth.authenticationProvider(keycloakAuthenticationProvider);
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		super.configure(http);
-		http.authorizeRequests().anyRequest().permitAll();
+		http.authorizeRequests().anyRequest().authenticated();
 		http.csrf().disable();
 	}
 
