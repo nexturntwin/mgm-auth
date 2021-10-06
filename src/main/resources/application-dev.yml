@@ -26,8 +26,11 @@ logging:
 
 keycloak:
   auth-server-url: http://localhost:8300/auth
-  realm: megamauth
+  realm: MEGAM
   resource: megam-auth
   public-client: true
   principal-attribute: preferred_username
+  use-resource-role-mappings: true
+  bearer-only: true
+  ssl-required: external
     
